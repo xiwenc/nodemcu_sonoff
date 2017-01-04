@@ -1,7 +1,7 @@
 function exec_template(fname)
   file.open(fname, "r")
   local txt = {}
-  
+
   while true do
     ln = file.readline()
     if (ln == nil) then break end
@@ -11,7 +11,7 @@ function exec_template(fname)
       local nw = string.gsub(w, "[^%a%s]", "%%%1")
       ln = string.gsub(ln, nw, f())
     end
-    
+
     txt[#txt+1] = ln
   end
   file.close()
@@ -32,10 +32,10 @@ end
 
 
 local pl = nil;
-local sv=net.createServer(net.TCP, 10) 
+local sv=net.createServer(net.TCP, 10)
 
 sv:listen(80,function(conn)
-  conn:on("receive", function(conn, pl) 
+  conn:on("receive", function(conn, pl)
     local payload = pl;
     if string.sub(pl, 0, 9) == "**LOAD**\n"  then
       print("HTTP : File received...")

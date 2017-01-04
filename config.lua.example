@@ -1,4 +1,5 @@
 -- GPIOS
+LED = "wifi" -- valid values: wifi or mqtt
 GPIO_LED = 7
 GPIO_SWITCH = 6
 
@@ -11,10 +12,12 @@ WIFI_ALARM_ID = 0
 WIFI_LED_BLINK_ALARM_ID = 1
 
 -- MQTT
-MQTT_CLIENTID = "plugxxx"
-MQTT_HOST = "YOUR_HOST"
+MQTT_CLIENTID = "myswitch" # or set nil to default to wifi mac address
+MQTT_HOST = "YOUR_MQTT_HOST"
 MQTT_PORT = 1883
-MQTT_MAINTOPIC = "YOUT MQTT_TOPIC" .. MQTT_CLIENTID
+MQTT_USER = "mqtt"
+MQTT_PASSWORD = "secret"
+MQTT_MAINTOPIC = "switch"
 
 -- Confirmation message
 print("\nGlobal variables loaded...\n")

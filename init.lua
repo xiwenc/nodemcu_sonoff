@@ -12,7 +12,10 @@ load_lib("config")
 
 local wifiReady = 0
 local firstPass = 0
-local ledOn = false
+
+if MQTT_CLIENTID == nil then
+    MQTT_CLIENTID = wifi.sta.getmac()
+end
 
 function configureWiFi()
     gpio.mode(GPIO_LED, gpio.OUTPUT)
@@ -21,8 +24,7 @@ function configureWiFi()
     tmr.alarm(WIFI_ALARM_ID, 2000, 1, wifi_watch)
 end
 
-function wifi_watch() 
-    
+function wifi_watch()
     status = wifi.sta.status()
     -- only do something if the status actually changed (5: STATION_GOT_IP.)
     if status == 5 and wifiReady == 0 then
@@ -45,8 +47,11 @@ function wifi_watch()
 end
 
 function turnWiFiLedOnOff()
+    if LED ~= "wifi" then
+        return
+    end
     tmr.alarm(WIFI_LED_BLINK_ALARM_ID, 200, 0, function()
-        if ledOn then
+        if gpio.read(GPIO_LED) == 1 then
             turnWiFiLedOff()
         else
             turnWiFiLedOn()
@@ -55,11 +60,9 @@ function turnWiFiLedOnOff()
 end
 function turnWiFiLedOn()
     gpio.write(GPIO_LED, gpio.LOW)
-    ledOn = true
 end
 function turnWiFiLedOff()
     gpio.write(GPIO_LED, gpio.HIGH)
-    ledOn = false
 end
 
 -- Configure
