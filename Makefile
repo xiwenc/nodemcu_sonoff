@@ -11,3 +11,6 @@ upload:
 
 ls:
 	sudo nodemcu-uploader file list
+
+nodemcu:
+	sudo esptool.py -p /dev/ttyUSB0 write_flash -fm qio 0x00000 nodemcu-master-11-modules-2016-12-30-10-15-09-float.bin
